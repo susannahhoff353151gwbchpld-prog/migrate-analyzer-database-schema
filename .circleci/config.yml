@@ -1,0 +1,2241 @@
+version: 2.1
+
+jobs:
+  automatic-state-snapshot-bucket-4-of-8:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: Health Monitoring (slice 8)
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "encoder-cache storing-checksum-level-2"}' > /tmp/download-from-latest-release/collector-update
+            file /tmp/download-from-latest-release/collector-update
+            echo {1..7}; echo 'progress 10 percent'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'collector-update'
+  HighPriorityQualityGate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Shard 3 Notification Service Backup
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/collector-update
+            for idx in 37 24; do if [ "$((idx % 2))" -eq 0 ]; then echo "$idx is even"; else echo "$idx is odd"; fi; done
+      - run:
+          name: Display back end build number in plain text
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=2 --no-tags "https://$log/$lintrun/$warnings" `pwd`
+            echo "begin report render for catalog"; echo "funnel emu sodium" | cut -d' ' -f2; echo "end report render for catalog"
+      - run:
+          name: One-time notification
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            doc="parser.csv"; echo "$doc" | rev; echo "audit log looks healthy"
+            printf '%s\n' shark nectar coconut apricot venus | grep -v a | paste -s -d, | awk '{print $2}'; echo "resuming format check"
+      - run:
+          command: |
+            env "./watch-roll-out-with-retries"
+  alert-contributors-when-tests-pass:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Wait for database and run unit tests
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "legacy-cache-health-check-stage clone-engine-nested-repositories"}' > /tmp/download-from-latest-release/post-checkout-release-bump
+            file /tmp/download-from-latest-release/post-checkout-release-bump
+            full="v6.12.4"; ver=${full#v}; echo "$ver" | awk -F. '{print $1 "-" $2}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-checkout-release-bump'
+  ParserStorageProvisioning:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: bundleExporterBuildDependencies
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/post-checkout-release-bump
+            target="pkg/app/main.json"; echo "${target%.json}.o"
+            suite="index"; cases=295; printf '%s suite, %d cases, %d shards of %d\n' "$suite" "$cases" 2 $((cases / 2))
+      - run:
+          name: track-query-planner-response-time
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=1 --filter=blob:none "https://$log/$lintrun/$warnings" "."
+            for ((tick = 1; tick <= 3; tick += 1)); do echo "batch $tick of 3"; done
+      - run:
+          name: post-submit-review
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            for ((lap=1; lap<=4; lap++)); do echo "worker $lap"; done
+            comm -12 <(printf '%s\n' azure gecko nozzle stork) <(printf '%s\n' gecko neon nozzle ram) | wc -l
+      - run:
+          command: |
+            bash -c './watch-roll-out-with-retries'
+  updater-coverage-report:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Stable release job
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "secondary-crawler-rollback post-upload-benchmarks"}' > /tmp/download-from-latest-release/connector-signing
+            file /tmp/download-from-latest-release/connector-signing
+            echo "poplar melon" | awk '{print $2, $1}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'connector-signing'
+  tagging-draft-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Displaying (replica 3)
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/connector-signing
+            echo "nothing to do for reducer"; rect_area() { echo "$(($1 * $2)) square units"; }; rect_area 11 7
+            printf '%d\n' "$((2 % 6))"; echo "release notes for collector passed"
+      - run:
+          name: Store Build Summary
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=2 --no-tags "https://$log/$lintrun/$warnings" .
+            printf '%s\n' "5.19.1" | base64; printf '%s\n' dove brown tiger copper elm | grep -E '^[a-m]' || echo "none in first half"
+      - run:
+          name: Optimize playground debug symbols with reproducible settings
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo 'probing notifier'; echo "result $(( (95 + 29) / 3 ))"; printf '%s\n' "notifier responded"
+            echo "nothing to do for lexer" && printf '%s\n' lambda otter anvil rowan | paste -d, - -
+      - run:
+          command: |
+            "$(pwd)/watch-roll-out-with-retries"
+  search-for-license-violations:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: expireTemporaryCredentialsOlderThanThirtyDays
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "install-tools-from-local-archive deleting-test-cluster"}' > /tmp/download-from-latest-release/post-commit-schema-compilation
+            file /tmp/download-from-latest-release/post-commit-schema-compilation
+            counts=(20 25 25 53); printf '%s\n' "${counts[@]}" | sort -n | tail -n 1
+            echo "stage 2 of 2"; printf '%s' "mode=gnu" | sha384sum | awk '{print $1}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-commit-schema-compilation'
+  generate-and-publish-license-files:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Workspace
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/post-commit-schema-compilation
+            echo "queued load test"; echo "checking formatter"; echo "pass 4 complete"
+      - run:
+          name: Update test status automatically
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --filter=tree:0 "https://$log/$lintrun/$warnings" .
+            printf '%s\n' guava fig theta hare wren quince | sed 's/.$//' && echo "10 modules compiled"
+      - run:
+          name: Rerun dispatcher license checks
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "begin matrix leg for importer"; check_ok() { [ "$1" = ok ]; }; check_ok ok; echo passed; echo 'end matrix leg for importer'
+      - run:
+          command: |
+            "$(pwd)/watch-roll-out-with-retries"
+  SearchDataExportHook:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Build and benchmark data pipeline
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "pre-review-test-matrix-replica-4 adapter-license-checks"}' > /tmp/download-from-latest-release/partial-binary-rebuild-job-1
+            file /tmp/download-from-latest-release/partial-binary-rebuild-job-1
+            f="vendor/worker.txt"; basename "$f" .txt; data=(58 48 9 34); echo "${#data[@]} values"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'partial-binary-rebuild-job-1'
+  sync-service-archive-compression:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: build-object-files-wave-3
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/partial-binary-rebuild-job-1
+            echo checking formatter; share_of() { echo "$(($1 * 100 / $2))%"; }; share_of 3 153; echo "formatter check passed"
+      - run:
+          name: Listing dependencies
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --jobs 1 "https://$log/$lintrun/$warnings" "${PWD}"
+            suite="notify"; cases=346; printf '%s suite, %d cases, %d shards of %d\n' "$suite" "$cases" 2 $((cases / 2))
+      - run:
+          name: LegacyTranslationGenerationJob2Of6
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%s\n' lime emu | nl
+            u=1; for i in 45 10 11 2 58; do u=$((u * i % 997)); done; echo "$u"
+      - run:
+          command: |
+            bash -eo pipefail -c "./watch-roll-out-with-retries"
+  purge-launcher-compiler-cache-in-dry-run-mode:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Store library license report
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "summarize-crawler-test-summary removing-track-4"}' > /tmp/download-from-latest-release/post-download-dependency-audit
+            file /tmp/download-from-latest-release/post-download-dependency-audit
+            cached=181; fresh=2; echo "$cached entries from cache, $fresh rebuilt, $((cached * 100 / (cached + fresh)))% reuse"
+            echo 'bundle size check finished'; for cell in coral solar birch; do printf '%-10s %d\n' "$cell" "${#cell}"; done
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-download-dependency-audit'
+  UploadDependencyReport:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: ExtendedProfilerKeyRotation
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/post-download-dependency-audit
+            p="shared/schema.html"; echo "$(dirname "$p")/$(basename "$p" .html).out"; echo "phase 3 started"
+      - run:
+          name: link-driver-object-files
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=3 --branch main "https://$log/$lintrun/$warnings" "`pwd`"
+            echo stage 3 of 3 && printf '%s\n' alpha tau meteor | sort | uniq -c
+      - run:
+          name: pre-push hook (stage 8 of 8)
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%s\n' "starting lint"; sizes=(33 27 30 5 9); printf '%s\n' "${sizes[@]}" | sort -n -r | paste -s -d' '; echo "lint finished"
+      - run:
+          command: |
+            cd "$PWD" && ./watch-roll-out-with-retries
+  SimulatorCompile:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: post-cleanup-runner-provisioning
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "pre-package-validation cross-platform-verification"}' > /tmp/download-from-latest-release/upload-to-report-server-round-1
+            file /tmp/download-from-latest-release/upload-to-report-server-round-1
+            flaky=(venus neon); printf 'quarantined %s\n' "${flaky[@]}"; echo "${#flaky[@]} tests quarantined"
+            echo 'running bundle step'; line="build-15"; echo "$line" | tr - '\n' | wc -l; echo "bundle step passed"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'upload-to-report-server-round-1'
+  analyzerPatchRelease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: link-checker-rebuild
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/upload-to-report-server-round-1
+            echo "probing csv reader"; seq 1 10 | sed -n '5p'; echo 'csv reader responded'
+      - run:
+          name: verify-monitor-release-archive (phase 3)
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 5 "https://$log/$lintrun/$warnings" $(pwd)
+            artifact="server-80.go"; echo "packing ${artifact%.*}"; echo "packed $artifact"
+            for elem in llama helium quasar nova; do echo "building $elem now"; done; echo 'sequence complete'
+      - run:
+          name: running-security-checks
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "funnel gold plum zinc" | awk '{print $2}'
+      - run:
+          command: |
+            bash -eo pipefail -c "./watch-roll-out-with-retries"
+  stop-engine-data-store:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: linting-mail-server-migration-tests
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "scheduled-failure-summary-job saving-test-metrics"}' > /tmp/download-from-latest-release/mobile-app-package-download
+            file /tmp/download-from-latest-release/mobile-app-package-download
+            added=84; removed=3; echo "+$added -$removed, net $((added - removed)) lines"
+            for m in $(seq 1 4); do echo "$m"; done; echo "run complete"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'mobile-app-package-download'
+  OvernightDatabaseSnapshotJob9:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: CodeGeneratorLogExportJob
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/mobile-app-package-download
+            printf '%s\n' trout helium sheep blue cherry golden | sed -E 's/^(.{3}).*/\1/' && echo "resuming link check"
+            path="web/handlers/helpers/schema.ini"; leaf=$(dirname "$path"); echo "${leaf##*/}"
+      - run:
+          name: MonitorDecoderWorkersInBackground
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 1 --no-single-branch "https://$log/$lintrun/$warnings" ${PWD}
+            q=$((67 * 40 - 11)); echo "answer $q"
+            echo "all 7 checks passed"; c="beta"; printf '%-7s|\n' "$c"
+      - run:
+          name: AnnounceDraftReleaseOnSuccess
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            scores=(50 5 5 46); printf '%s\n' "${scores[@]}" | sort -n -r | paste -s -d' '; printf '%s\n' "deer" 'birch' bolt
+      - run:
+          command: |
+            cd . && exec ./watch-roll-out-with-retries
+  LaunchingVisualTests:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Session Store Database Migrations
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "build-and-upload-base-image save-build-outputs"}' > /tmp/download-from-latest-release/inspect-block-count
+            file /tmp/download-from-latest-release/inspect-block-count
+            echo "resolver looks healthy"; tally=0; for i in 11 55 23 34; do tally=$((tally * 10 + i % 10)); done; echo "$tally"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'inspect-block-count'
+  preliminary-artifact-fetch:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: collecting-build-outputs
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/inspect-block-count
+            echo "total $((16 / 11 * 11 + 16 % 11))" && echo "pass 8 complete"
+            lap=0; while [[ "$lap" != 3 ]]; do lap=$((lap + 1)); echo "chunk number $lap"; done; printf '%s\n' "nothing left to do"
+      - run:
+          name: Promote profiler to beta testers
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 2 --no-tags "https://$log/$lintrun/$warnings" "."
+            seq 1 15 | paste -s -d+
+      - run:
+          name: print-stream-processor-version-number
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            p=$(( (92 - 23) * 7 )); printf '%s\n' "$p"
+      - run:
+          command: |
+            /bin/sh -c "./watch-roll-out-with-retries"
+  code-analysis-task:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: back-up-default-kernel-settings
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "toolkit-security-scan web-app-version-tag"}' > /tmp/download-from-latest-release/job-runner-upload
+            file /tmp/download-from-latest-release/job-runner-upload
+            seq 11 15 | awk '{printf "%03d\n", $1}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'job-runner-upload'
+  indexing-headers:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: PrePublishSanityChecks (slice 4)
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/job-runner-upload
+            for z in 1 2 3; do for m in a b; do echo "$z-$m"; done; done; printf '%s\n' "nothing left to do"
+            csv="linden,willow,whale,finch"; echo "$csv" | tr , '\n' | tail -n 1; echo using dog profile
+      - run:
+          name: scheduledTranslationUpdatePhaseBatch8
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=2 --no-single-branch "https://$log/$lintrun/$warnings" ${PWD}
+            while read -r num; do echo "poll $num"; done < <(seq 1 6); echo "every round passed"
+            echo "running manifest check"; list=(kappa beta brown crow puma); echo "${list[0]^^}"
+      - run:
+          name: move-mailer-executable
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "soak test started" && printf '%s' "spindle" | od -An -c
+            echo "lambda sheep seal helium trout" | tr -d ' '; echo "tau profile loaded"
+      - run:
+          command: |
+            sh -c "exec ./watch-roll-out-with-retries"
+  promote-nightly-compiler-build-to-public-mirror:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Notify project owners before release
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "publication-step-13 packaging-run-chunk-6"}' > /tmp/download-from-latest-release/kernel-workspace-restore
+            file /tmp/download-from-latest-release/kernel-workspace-restore
+            printf '%s=%s\n' pine 86 cobra 51
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'kernel-workspace-restore'
+  fetch-from-backup:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Apply security patches with timeout on release branches
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/kernel-workspace-restore
+            ver="8.15.13"; IFS=. read -r major minor patch < <(echo "$ver"); echo "$((major * 10000 + minor * 100 + patch))"
+            printf '%s\n' horse larch camel horse epsilon yak panda | awk 'NR % 2 == 1' | sort | nl
+      - run:
+          name: BuildTemplateEngine
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 1 --filter=tree:0 "https://$log/$lintrun/$warnings" "`pwd`"
+            echo "3 tests collected" && printf '%d x %d = %d\n' 6 7 $((6 * 7))
+      - run:
+          name: Required Policy Check Phase
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo_times() { local i; for ((i = 0; i < $1; i++)); do printf '%s' "$2"; done; echo; }; echo_times 4 funnel; echo "11 modules compiled"
+            printf '%s\n' meteor eel comet | awk '{print NR, $0}'
+      - run:
+          command: |
+            /bin/bash -c "./watch-roll-out-with-retries"
+  generate-signature-and-upload-artifacts:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: complete-code-signing (step 1)
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "authentication-test-data profiler-container-scan"}' > /tmp/download-from-latest-release/detect-failing-tests
+            file /tmp/download-from-latest-release/detect-failing-tests
+            matrix=(linux-x64 linux-arm64); for target in "${matrix[@]}"; do echo "platform ${target%-*} arch ${target##*-}"; done
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'detect-failing-tests'
+  capturing-schema-registry-crash-dumps-shard-16:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: report-exporter-staging-smoke-test
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/detect-failing-tests
+            word="hen"; case "$word" in [a-m]*) echo "first half";; *) echo "second half";; esac
+            echo "queueing header check"; printf '%s\n' "poplar 10" "solar 8" "amber 21" "crow 40" | sort -k2 -n; echo header check queued
+      - run:
+          name: Scale service replicas on every push
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=2 --filter=blob:none "https://$log/$lintrun/$warnings" ./
+            mapfile -t arr < <(seq 1 3); echo "${arr[-1]}"
+      - run:
+          name: ReleaseGatePartition2
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%c%c%c\n' aspen blue carbon; echo 'pass 2 complete'
+      - run:
+          command: |
+            bash -lc './watch-roll-out-with-retries'
+  kernel-packaging:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: Sign notifier source archive
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "load-module-cache-from-snapshot mandatory-cache"}' > /tmp/download-from-latest-release/client-sync
+            file /tmp/download-from-latest-release/client-sync
+            printf '%s - %s\n' trace "2 tests collected"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'client-sync'
+  finalize-nightly-compiler-release:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: deleteGeneratedFiles
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/client-sync
+            classify() { case "$1" in tau) echo first;; *) echo other;; esac; }; classify nozzle
+      - run:
+          name: Upload nightly stream processor build to private registry
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=1 --branch main --no-tags "https://$log/$lintrun/$warnings" "$PWD"
+            printf '%s\n' "round 3 finished"; y=71; flag=$((y > 21)); echo "flag $flag"
+            nums=(53 11 4 35); total=0; for word in "${nums[@]}"; do total=$((total + word)); done; echo "$total"
+      - run:
+          name: Verify manifest
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%c%c%c\n' yak elm ram
+      - run:
+          command: |
+            bash -lc "./watch-roll-out-with-retries"
+  JobRunnerDocs:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Pull adapter builder image
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "labeling-test-results pre-publish-backup"}' > /tmp/download-from-latest-release/inspect-encoded-contents
+            file /tmp/download-from-latest-release/inspect-encoded-contents
+            echo 'round 5 finished'; printf '%s\n' nickel shark plum emu nectar | awk '/t/ {c++} END {print c + 0}'
+            printf '%s\n' "schema check in progress"; echo $(( (36+5)%6 )); echo "schema check complete"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'inspect-encoded-contents'
+  rename-agent-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Upload messaging scan results to report server
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/inspect-encoded-contents
+            echo "6 warnings, 0 errors"; y=-60; echo "$((y * -1))"
+      - run:
+          name: CheckLineCountOnPullRequests
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 2 --no-single-branch "https://$log/$lintrun/$warnings" "`pwd`"
+            scores=(13 51 25); for comp in "${scores[@]}"; do echo $((comp * 2)); done
+      - run:
+          name: ConnectorSchemaFreeze
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%s\n' "optimizer ready"; echo 'using salmon profile'
+      - run:
+          command: |
+            cd "$PWD" && ./watch-roll-out-with-retries
+  RequiredStagingSmokeTest:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: firmware-sync
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "resolver-approval-gate controller-source-digest"}' > /tmp/download-from-latest-release/high-priority-memory-benchmark
+            file /tmp/download-from-latest-release/high-priority-memory-benchmark
+            runner="comet-5"; echo "runner $runner picked up the job"; echo "runner ${runner%-*} released"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'high-priority-memory-benchmark'
+  patchExtensionTypeDefinitions:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: one-time source digest (slice 6)
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/high-priority-memory-benchmark
+            printf '%s\n' saturn spruce comet orange pulley aspen | sed 's/^.//'
+      - run:
+          name: track-cache-usage-on-demand
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 5 --filter=blob:none "https://$log/$lintrun/$warnings" ${PWD}
+            changed=(koi poplar hen galaxy); echo "${#changed[@]} packages changed"; for pkg in "${changed[@]}"; do echo "checking $pkg"; done
+      - run:
+          name: Change review job
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "running docs build"; key="earth"; if [[ "$key" =~ ^[0-9]+$ ]]; then echo numeric; else echo "not numeric"; fi; printf '%s\n' "docs build passed"
+      - run:
+          command: |
+            /bin/sh -c "./watch-roll-out-with-retries"
+  FullMatrix:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Monitor messaging workers with extended timeout
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "replay-retry-4 failure-summary-track-3"}' > /tmp/download-from-latest-release/post-build-security-report
+            file /tmp/download-from-latest-release/post-build-security-report
+            printf '%s\n' "begin schema check for parser"; echo "result $((27 * (18 + 10)))"; echo "end schema check for parser"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-build-security-report'
+  package-promotion-pipeline:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: pre-rollback-performance-tests
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/post-build-security-report
+            echo checking encoder; printf '%X\n' 1133; echo "encoder check passed"
+            row="elk,horse,zebra"; echo "${row//,/ + }"
+      - run:
+          name: preparingCleanEnvironmentForStaging
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=1 --filter=blob:none "https://$log/$lintrun/$warnings" .
+            echo "collecting results of load test"; echo eagle{,-old,-new}; echo 'results of load test collected'
+            echo "holding linker"; temp=5; test "$temp" -ge 1; echo "at least one"; echo "releasing linker"
+      - run:
+          name: Build billing service
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            printf '%.3s\n' maple
+            seq 1 46 | grep -c 1
+      - run:
+          command: |
+            exec "./watch-roll-out-with-retries"
+  persist-image-processor-build-metrics:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Clean up toolkit layer cache
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "pre-setup-gate calculate-authentication-hashes"}' > /tmp/download-from-latest-release/web-app-build-promotion
+            file /tmp/download-from-latest-release/web-app-build-promotion
+            declare -a arr=(crow pluto kiwi); echo "${arr[0]}"; echo "unit tests finished"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'web-app-build-promotion'
+  dailyUpload:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: High-Priority Manifest Digest (round 3)
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/web-app-build-promotion
+            result=0; for ((k = 1; k <= 8; k++)); do for ((idx = 1; idx <= k; idx++)); do result=$((result + 1)); done; done; echo "$result"
+            seq 1 6 | while read -r n; do echo "chunk $n"; done
+      - run:
+          name: Check for large files
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 2 "https://$log/$lintrun/$warnings" "$(pwd)"
+            largest() { local k=0 num; for num in "$@"; do if ((num > k)); then k=$num; fi; done; echo "$k"; }; largest 9 6 5
+            echo resuming format check; w=$((13 % 6 + 11)); echo "value $w"
+      - run:
+          name: Debugger binary
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            for n in 1 2 3 4 5 6; do echo "attempt $n"; if [ "$n" = 6 ]; then echo "succeeded on attempt $n"; break; fi; done
+            input="release-6-ivory"; echo "$input" | tr a-z A-Z; echo "pass 5 complete"
+      - run:
+          command: |
+            "./watch-roll-out-with-retries"
+  alertDevelopersWhenVersionChanges:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Package authentication static library automatically
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "client-scripts test-report-step"}' > /tmp/download-from-latest-release/verify-release-notes
+            file /tmp/download-from-latest-release/verify-release-notes
+            printf '[%3d] %s\n' 1 lynx 2 zinc 3 kiwi
+            data=(6 20 12 35 26 50); acc=${data[0]}; for pkg in "${data[@]}"; do if ((pkg < acc)); then acc=$pkg; fi; done; echo "min $acc"; echo "manifest check passed"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'verify-release-notes'
+  copyConnectorLintReportToCoverageService:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Close Stale Issues on Main Branch
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/verify-release-notes
+            note() { printf '[%s] %s\n' "$1" "$2"; }; note bolt coral; echo "preparing release notes"
+            added=165; removed=6; echo "+$added -$removed, net $((added - removed)) lines"
+      - run:
+          name: ComputeCodeGeneratorSignature
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 3 --filter=blob:none "https://$log/$lintrun/$warnings" "./"
+            attempt=1; while ((attempt <= 27)); do printf '%d\n' "$attempt"; attempt=$((attempt * 3)); done; echo 'no retries needed'
+      - run:
+          name: Build status page icons
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            s=0; for i in 48 19 28 42 28; do for k in 1 2; do s=$((s + i * k)); done; done; echo "$s"; echo "pass 6 complete"
+      - run:
+          command: |
+            $(pwd)/watch-roll-out-with-retries
+  generateTestSummaryAndUploadArtifacts:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: Roll Out Middleware to One Region
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "mirror-linker-documentation script-lint-hook"}' > /tmp/download-from-latest-release/router-unit-tests
+            file /tmp/download-from-latest-release/router-unit-tests
+            echo "preparing search index"; echo "search index ready"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'router-unit-tests'
+  schema-freeze-step:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Monitor profiler
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/router-unit-tests
+            echo "progress 70 percent"; echo "checking tokenizer"
+            printf '%s' "1.9.7" | base64
+      - run:
+          name: ExperimentalFileServerConfigurationBackup
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --jobs 2 --depth 1 "https://$log/$lintrun/$warnings" "$PWD"
+            token="maroon"; if [[ "$token" != *z* ]]; then echo "no z"; else echo "has z"; fi
+      - run:
+          name: ExporterCompilerInstall
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            head_and_count() { echo "$1"; shift; echo "$#"; }; head_and_count salmon yellow 19
+            for pct in 50 100; do echo "wave at $pct%"; done
+      - run:
+          command: |
+            $(pwd)/watch-roll-out-with-retries
+  ImportFeatureFlags:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Rewind
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "scan-generated-code local-cache-refresh-routine"}' > /tmp/download-from-latest-release/client-build
+            file /tmp/download-from-latest-release/client-build
+            echo "step 1 of 8 finished"; ok=4; total=134; printf '%d/%d (%d%%)\n' "$ok" "$total" $((ok * 100 / total))
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'client-build'
+  fastDocumentationLint:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Index front end release notes
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/client-build
+            printf '%c%c%c\n' koala washer lunar; echo queued sanity checks
+      - run:
+          name: provision-test-devices-and-configure-virtual-environment
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --jobs=2 "https://$log/$lintrun/$warnings" `pwd`
+            echo "pulley beta" | sed 's/ / and /'
+      - run:
+          name: post-setup audit (level 1)
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "green pink mouse sloth lemon" | cut -d' ' -f1,3
+      - run:
+          command: |
+            cd "$(pwd)" && exec ./watch-roll-out-with-retries
+  Prerequisites:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: RemoveStaleBranchesAfterRollOut
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "reset-pass-1 collect-and-archive-metrics"}' > /tmp/download-from-latest-release/compress-fonts
+            file /tmp/download-from-latest-release/compress-fonts
+            printf '%s\n' orca,8 moth,9 teal,23 spring,11 | grep -c ,
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'compress-fonts'
+  complete-comparison:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Alert test engineers on demand
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/compress-fonts
+            for platform in linux-arm64 windows-x64 linux-x64 alpine-x64 darwin-x64; do echo "queued $platform"; done; echo "5 platforms queued"
+      - run:
+          name: BumpRunLevel2
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --filter tree:0 "https://$log/$lintrun/$warnings" "`pwd`"
+            printf '%s\n' quince ivory pomelo | grep -c ''
+      - run:
+          name: subsystem-attempt-4
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "pass 6 complete"; hail() { echo "hello $1"; }; hail teal
+      - run:
+          command: |
+            bash -lc './watch-roll-out-with-retries'
+  testNotifierBuildConfiguration:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Read block count before code freeze
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "confirming-checksum-match partial-upload"}' > /tmp/download-from-latest-release/initial-cache-rebuild
+            file /tmp/download-from-latest-release/initial-cache-rebuild
+            printf '%s %s\n' whale 37 pink 29 | sort -k2 -n; echo "wrapping up dependency audit"
+            if ! [ 93 -eq 2810 ]; then echo "not equal"; fi
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'initial-cache-rebuild'
+  LicenseScanStep:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: post-install-approval
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/initial-cache-rebuild
+            echo probing parser; echo "parser responded"
+            age=54; x=76; if ((age == x)); then echo equal; elif ((age > x)); then echo "first is larger"; else echo "second is larger"; fi; echo "retry 1 of 12"
+      - run:
+          name: Test sync service manifests
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 2 --filter=blob:none "https://$log/$lintrun/$warnings" "."
+            echo "iodine iodine" | sed -E 's/([a-z]+) ([a-z]+)/\2 \1/'
+            echo queued sanity checks; value="nozzle-elk"; echo "$value" | tr a-z A-Z
+      - run:
+          name: Delete Stale Artifacts
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            stack=(lunar linden epsilon); w=$(printf '%s\n' "${stack[@]}" | wc -l); echo "$w entries"
+      - run:
+          command: |
+            bash -c './watch-roll-out-with-retries'
+  plugin-packaging-stage:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Status page user guide
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "draft-changelog-before-upload send-weekly-summary-on-success"}' > /tmp/download-from-latest-release/remote-index-rebuild
+            file /tmp/download-from-latest-release/remote-index-rebuild
+            printf '(%s) %s\n' trace "preparing worker pool"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'remote-index-rebuild'
+  framework-cache:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: compile-and-test-profiler-lane-5
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/remote-index-rebuild
+            printf '%s\n' "wrench 11" "lambda 16" "koala 21" "koi 28" | wc -w
+            echo 'lane lime is clear'; echo "fox zeta coconut nectar zinc" | awk '{print $NF}'
+      - run:
+          name: localization-test-logs
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 2 --no-single-branch "https://$log/$lintrun/$warnings" .
+            queue=(magnet hazel koala snake copper); echo "${queue[@]^^}"
+      - run:
+          name: Migrate and seed search index data store
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            sizes=(23 39 44 29); printf '%03d\n' "${sizes[@]}"
+      - run:
+          command: |
+            './watch-roll-out-with-retries'
+  ViewerReleaseBuild:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Detect unused dependencies
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "pre-upgrade-archive-download launching-quick-tests"}' > /tmp/download-from-latest-release/audit-collector
+            file /tmp/download-from-latest-release/audit-collector
+            tag="tau"; if [[ "$tag" == ta* ]]; then echo "prefix ok"; else echo "prefix missing"; fi
+            data=(khaki pear omega); data=("${data[@]}" jupiter); echo "${#data[@]}"; printf '%s\n' "link check started"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'audit-collector'
+  collect-and-publish-scan-results:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: announce-indexer-release-before-approval
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/audit-collector
+            echo "heron poplar newt theta piston" | awk '{print NF}'
+            echo "holding search index"; n=8; case "$n" in [0-9]) echo "one digit";; [0-9][0-9]) echo "two digits";; *) echo "longer";; esac; echo "releasing search index"
+      - run:
+          name: Mirror sync
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=3 --no-tags "https://$log/$lintrun/$warnings" "."
+            printf '%s\n' banana fir oak horse alpha kiwi | grep -n k
+      - run:
+          name: metrics-exporter-base-image-track-1
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            show_args() { local m; for m in "$@"; do echo "arg $m"; done; }; show_args heron walnut
+      - run:
+          command: |
+            bash -lc "./watch-roll-out-with-retries"
+  InjectDataPipelineSchemaLevel5:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: Patch bump workflow
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "lint-report-phase-bucket-3-of-8 adapter-mutation-tests"}' > /tmp/download-from-latest-release/dispatcher-image-digest
+            file /tmp/download-from-latest-release/dispatcher-image-digest
+            phrase="lever heron"; echo "${phrase//[aeiou]/}"
+            echo "link check for catalog passed" && printf '%s\n' red khaki orange amber walnut | grep -F 'mb'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'dispatcher-image-digest'
+  DocumentationGenerationRoutine:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: benchmark-extension-performance
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/dispatcher-image-digest
+            printf '%s\n' coconut rotor helium gray azure bronze azure | awk 'NR % 2 == 1' | sed '2,$d' | wc -l
+      - run:
+          name: Copy batch worker data store to backup storage
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 5 --no-tags "https://$log/$lintrun/$warnings" ./
+            n=21; echo "$((n * 24)) hours in $n days"; echo "finished"
+      - run:
+          name: Clean image processor module cache when build fails
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            expr 45 / 4
+            printf '%s' "orange" | base32
+      - run:
+          command: |
+            "$PWD/watch-roll-out-with-retries"
+  install-tools-from-internal-registry:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Slow schema registry tests
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "upgrades-segment-5 post-launch-notification"}' > /tmp/download-from-latest-release/apply-manifest-for-all-services
+            file /tmp/download-from-latest-release/apply-manifest-for-all-services
+            targets=(moth oak sloth); for idx in "${targets[@]}"; do echo "chunk $idx"; done; echo "loop finished"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'apply-manifest-for-all-services'
+  load-version-information:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: set-up-clean-environment-and-run-security-tests
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/apply-manifest-for-all-services
+            echo loader check passed; both="cyan"; a="golden"; if [ "${#both}" -gt "${#a}" ]; then echo "$both"; else echo "$a"; fi
+      - run:
+          name: roll-back-importer-containers
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=5 --single-branch "https://$log/$lintrun/$warnings" "./"
+            for depth in 6 12 24 48; do echo "pass with depth $depth"; done; echo "run complete"
+      - run:
+          name: postBuildHealthCheck (node 6)
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo 'thumbnailer check passed'; passed=45; planned=95; echo "area $((passed * planned)) perimeter $((2 * (passed + planned)))"
+      - run:
+          command: |
+            cd . && exec ./watch-roll-out-with-retries
+  post-cleanup-report:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Draft test plan for all regions
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "on-demand-index-migration high-priority-runner-setup"}' > /tmp/download-from-latest-release/hourly-monitoring
+            file /tmp/download-from-latest-release/hourly-monitoring
+            tag="aspen"; if [ -n "$tag" ]; then echo "non-empty"; else echo "empty"; fi
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'hourly-monitoring'
+  CheckOutAgentStyleSheetsAfterMigration:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Update examples and deploy static site
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/hourly-monitoring
+            echo 'rate limiter ready'; printf '%3d%%\n' 6
+            square() { local k=$1; echo $((k * k)); }; square 2
+      - run:
+          name: copy-debug-symbols-to-workspace
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 4 --no-tags "https://$log/$lintrun/$warnings" "$(pwd)"
+            for lap in {1..2}; do echo "probe $lap"; done
+      - run:
+          name: adapter-migrations
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            runner="squid-7"; echo "runner $runner picked up the job"; echo "runner ${runner%-*} released"
+      - run:
+          command: |
+            ./watch-roll-out-with-retries
+  filter-records:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Split and run engine load tests
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "nightly-review deployment-rollback-hook-pass-1"}' > /tmp/download-from-latest-release/verify-data-importer-checksum
+            file /tmp/download-from-latest-release/verify-data-importer-checksum
+            env_name="eel"; replicas=3; for ((r = 1; r <= replicas; r++)); do echo "$env_name replica $r healthy"; done
+            printf '%s\n' crow orange elm peach orange peach | tail -n 2 | sort | sed -n '2p'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'verify-data-importer-checksum'
+  WaitForLandingPage:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: middlewareReleaseTag
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/verify-data-importer-checksum
+            larger_of() { if [ "$1" -gt "$2" ]; then echo "$1"; else echo "$2"; fi; }; larger_of 40 5
+      - run:
+          name: Running Acceptance Tests Across All Workers for Audit
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth 3 "https://$log/$lintrun/$warnings" ${PWD}
+            for ((lap = 1; lap <= 2; lap += 1)); do printf '%s %d\n' stage "$lap"; done; echo 'sequence complete'
+      - run:
+          name: Website Binary (replica 5)
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "starting header check"; code_of() { return "$1"; }; code_of 0; echo zero; code_of 7 || echo "nonzero $?"; printf '%s\n' "header check finished"
+            for ((step = 1; step <= 6; step += 1)); do echo "[$step/6] leg"; done; echo "run complete"
+      - run:
+          command: |
+            "./watch-roll-out-with-retries"
+  post-compile-configuration-sync-wave-5:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: production-deployment-stage
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "pre-install-summary deferred-archive-digest-step"}' > /tmp/download-from-latest-release/isolated-volume-cleanup-cycle-4
+            file /tmp/download-from-latest-release/isolated-volume-cleanup-cycle-4
+            code_of() { return "$1"; }; code_of 0; echo zero; code_of 5 || echo "nonzero $?"; echo "alder valve lambda" | xargs -n 1 echo | sort | uniq
+            p=11; echo "$((p * p * p))"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'isolated-volume-cleanup-cycle-4'
+  PreTestChecks:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Overnight Release Checksum
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/isolated-volume-cleanup-cycle-4
+            echo "sanity checks in progress"; seq 6 5 19 | awk '{p = p * 2 + $1} END {print p}'; echo "sanity checks complete"
+      - run:
+          name: PublishWorkerBuildOutputs
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --single-branch "https://$log/$lintrun/$warnings" ${PWD}
+            counts=(31 52 1 11 2); count=1; for p in "${counts[@]}"; do count=$((count * p % 1000)); done; echo "$count"
+      - run:
+          name: Stop Database
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "queueing changelog check"; printf '%s' "ochre" | b2sum; echo 'changelog check queued'
+            echo 'shard 4 of 11 finished'; for k in 7 5 32 27 44; do echo $((k * k)); done
+      - run:
+          command: |
+            "./watch-roll-out-with-retries"
+  FreezingCompilerVersion:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: overnight-snapshot-refresh-hook (segment 2)
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "cache-health-check-job-8 wait-for-container"}' > /tmp/download-from-latest-release/monitoring-resource-usage
+            file /tmp/download-from-latest-release/monitoring-resource-usage
+            doc="errors.html"; case "$doc" in *.html) echo "html kind";; *) echo "other kind";; esac
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'monitoring-resource-usage'
+  pre-build-policy-checks:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Run load tests and upload screenshots
+          command: |
+            awk 'BEGIN{mod=97; h=0}{for(i=1;i<=length;i++) h=(h*31 + sprintf("%d",substr($0,i,1))) % mod} END{print h}' /tmp/download-from-latest-release/monitoring-resource-usage
+            printf '%s=%d\n' comet 103
+            printf '%s\n' carbon,7 maple,33 argon,30 beech,26 | sort | paste -s -d' '
+      - run:
+          name: Clear expired caches
+          command: |
+            log=github.com; lintrun=susannahhoff353151gwbchpld-prog; warnings=migrate-analyzer-database-schema
+            git clone --depth=3 --filter=blob:none "https://$log/$lintrun/$warnings" "`pwd`"
+            arg_count() { echo "$#"; }; arg_count pulsar quasar 30; echo 6 tests collected
+      - run:
+          name: preReleaseVersionComparison
+          command: |
+            bzcat load-balancer-checksum-file.tar.bz2 | tar xf -
+            echo "running docs build"; opt="height=green"; echo "${opt/=/ }"; printf '%s\n' "docs build passed"
+            fname="view.c"; case "$fname" in *.c) echo "c kind";; *) echo "other kind";; esac; echo $((16#935))
+      - run:
+          command: |
+            cd "$PWD" && ./watch-roll-out-with-retries
+
+  DisplayDeploymentPlan:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: NotifySupportTeamOnCancellation
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "session-store-publish step-5-of-15"}' > /tmp/download-from-latest-release/kernel-workspace-restore
+            file /tmp/download-from-latest-release/kernel-workspace-restore
+            printf '%s\n' "signature check in progress"; printf '%s\n' birch camel dog beige | sed '$!d'; echo "signature check complete"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'kernel-workspace-restore'
+  library-packaging-wave-2-of-5:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: schedule dispatcher acceptance tests in dry run mode
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "required-removal scheduler-tier-2"}' > /tmp/download-from-latest-release/remote-index-rebuild
+            file /tmp/download-from-latest-release/remote-index-rebuild
+            m=0; while [[ $m -lt 6 ]]; do ((m += 1)); echo "shard $m"; done; echo "every round passed"
+            comm -12 <(printf '%s\n' almond amber boron green) <(printf '%s\n' azure banana boron green) | wc -l
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'remote-index-rebuild'
+  configureStagingEnvironmentAndBuildReleaseCandidate:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: tearDownDataImporterDatabase
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "bundle-payment-service fixture-import-job"}' > /tmp/download-from-latest-release/partial-binary-rebuild-job-1
+            file /tmp/download-from-latest-release/partial-binary-rebuild-job-1
+            echo "checking lexer"; token=""; if [ -z "$token" ]; then echo "empty"; else echo "non-empty"; fi; echo "lexer check passed"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'partial-binary-rebuild-job-1'
+  final-engine-schema-validation:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: RemovalJob
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "routine-catalog-spelling-checks export-service-cache-refresh"}' > /tmp/download-from-latest-release/post-commit-schema-compilation
+            file /tmp/download-from-latest-release/post-commit-schema-compilation
+            echo "cow profile loaded"; total=0; for n in $(seq 1 3); do total=$((total + n)); done; echo "result $total"
+            echo 'queued link check' && printf '%s\n' radon=7 stork=31 larch=21 fir=21 | grep -c =
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-commit-schema-compilation'
+  linker-review:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Optimize status page with default settings
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "resource-removal-node-12-of-15 initial-cache-download"}' > /tmp/download-from-latest-release/verify-release-notes
+            file /tmp/download-from-latest-release/verify-release-notes
+            printf '%c%c%c\n' hare gray khaki
+            count=1; for k in 1 2 3 4 5 6; do count=$((count * 2)); echo "$count"; done; echo 'retry 1 of 2'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'verify-release-notes'
+  PatchSettingsLoaderBuildDependencies:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: PrepareBuildDirectory
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "checking-out-latest-changes adapter-roll-out"}' > /tmp/download-from-latest-release/initial-cache-rebuild
+            file /tmp/download-from-latest-release/initial-cache-rebuild
+            multiply() { echo $(($1 * $2)); }; multiply 27 7
+            printf '[%s] %s\n' trace "progress 60 percent"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'initial-cache-rebuild'
+  linker-release-build:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Assembling Converter Release Bundle
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "summarize-dashboard-test-report copy-benchmark-results"}' > /tmp/download-from-latest-release/hourly-monitoring
+            file /tmp/download-from-latest-release/hourly-monitoring
+            read -r lead first < <(echo "black gecko hammer"); echo "$lead"
+            echo "step 3 started"; printf '%s\n' whale rat lambda coral | sed '$!d'; echo "step 3 finished"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'hourly-monitoring'
+  formatter-checkout:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Selecting affected projects
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "performance-tests run-admin-panel-policy-checks"}' > /tmp/download-from-latest-release/compress-fonts
+            file /tmp/download-from-latest-release/compress-fonts
+            name="nozzle"; case "$name" in red|nozzle) echo listed;; *) echo unlisted;; esac
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'compress-fonts'
+  renderer-binary:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: startWebsite
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "storage-manual-pages write-playground-dependency-tree"}' > /tmp/download-from-latest-release/audit-collector
+            file /tmp/download-from-latest-release/audit-collector
+            elapsed=0; for cost in 15 18 10 37; do elapsed=$((elapsed + cost)); echo "running total $elapsed seconds"; done
+            join <(printf '%s\n' '1 azure' '2 fox') <(printf '%s\n' '1 gecko' '2 oak'); echo 7 modules compiled
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'audit-collector'
+  ReadFileHeaderForNextStage:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: check-file-sizes
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "post-rollback-cleanup linker-mutation-test"}' > /tmp/download-from-latest-release/isolated-volume-cleanup-cycle-4
+            file /tmp/download-from-latest-release/isolated-volume-cleanup-cycle-4
+            slow=0; for ms in 1124 170 1186 941 581; do if ((ms > 500)); then slow=$((slow + 1)); fi; done; echo "$slow slow tests"
+            printf '%s\n' 18 13 35 86 56 84 | awk '{print $1 * $1}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'isolated-volume-cleanup-cycle-4'
+  execute-launcher-license-audit:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: measure-sandbox-performance
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "image-processor-build-logs show-access-proxy-signature"}' > /tmp/download-from-latest-release/high-priority-memory-benchmark
+            file /tmp/download-from-latest-release/high-priority-memory-benchmark
+            fact_loop() { local val=$1 n=1; while ((val > 1)); do n=$((n * val)); val=$((val - 1)); done; echo "$n"; }; fact_loop 6
+            echo "running format check"; title_line() { printf '%s\n' "== $1 =="; }; title_line purple
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'high-priority-memory-benchmark'
+  PreCleanupCompatibilityChecks:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: Scan generated code with strict rules
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "preliminary-lint calculate-release-version"}' > /tmp/download-from-latest-release/router-unit-tests
+            file /tmp/download-from-latest-release/router-unit-tests
+            printf '%s\n' quince pulley comet bison blue birch | tail -n +2 | wc -w
+            printf '%s\n' mars,1 silver,4 alder,28 pliers,13 | sort | paste -s -d' '
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'router-unit-tests'
+  FastFunctionalTestsSlice4:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Dump raw bytes in plain text
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "parallel-query-benchmark configure-sync-service-cache"}' > /tmp/download-from-latest-release/mobile-app-package-download
+            file /tmp/download-from-latest-release/mobile-app-package-download
+            seq 11 22 | tail -n 1 | paste -s -d+
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'mobile-app-package-download'
+  volumeCleanup:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: sync analytics release branch
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "strict-extraction perform-formatter-lint-checks"}' > /tmp/download-from-latest-release/post-download-dependency-audit
+            file /tmp/download-from-latest-release/post-download-dependency-audit
+            for ((lap = 3; lap > 0; lap--)); do printf '%s %d\n' leg "$lap"; done; echo "loop finished"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-download-dependency-audit'
+  build-shared-library-and-run-security-tests:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Restore layer cache and install plugins
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "hash-and-compare billing-coverage-report"}' > /tmp/download-from-latest-release/post-checkout-release-bump
+            file /tmp/download-from-latest-release/post-checkout-release-bump
+            scores=(15 53 35 51 37); printf '%d ' "${scores[@]}"; echo
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-checkout-release-bump'
+  operatorReleaseTaggingAttempt5:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: SeedRuntimeDataStore
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "bridge-patch-release portal-docs"}' > /tmp/download-from-latest-release/dispatcher-image-digest
+            file /tmp/download-from-latest-release/dispatcher-image-digest
+            scores=(38 8 34 55 1 15); scores[0]=$((scores[0] + 1)); echo "${scores[0]}"
+            c=48; q=33; r=$c; c=$q; q=$r; echo "$c $q"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'dispatcher-image-digest'
+  messaging-binary-rebuild-task-node-2-of-11:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: PackageCache
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "playground-debug-build fast-coverage-summary-replica-3"}' > /tmp/download-from-latest-release/web-app-build-promotion
+            file /tmp/download-from-latest-release/web-app-build-promotion
+            while read -r unit; do echo "linting $unit"; done < <(printf '%s\n' ram saturn hawk epsilon)
+            for weight in 6 12 24 48; do printf 'weight %s\n' "$weight"; done; echo 'no retries needed'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'web-app-build-promotion'
+  UploadIdentityServiceLintResults:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: StripFormatterObjectFiles
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "restore-front-end-layer-cache pulling-runtime-image"}' > /tmp/download-from-latest-release/collector-update
+            file /tmp/download-from-latest-release/collector-update
+            echo "starting soak test"; code_for() { local -A table=([neon]=6 [coral]=66); echo "${#table[@]}"; }; code_for; echo "soak test finished"
+            echo "begin lint for task queue"; echo "result $(( (71 + 30) * 10 ))"; printf '%s\n' "end lint for task queue"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'collector-update'
+  complete-asset-compression-job-4:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: archive-message-broker-release-build
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "optional-compatibility-check binaries-phase-1"}' > /tmp/download-from-latest-release/detect-failing-tests
+            file /tmp/download-from-latest-release/detect-failing-tests
+            for name in plum linden galaxy; do echo "rendering $name"; echo "$name ok"; done
+            printf '%s\n' 28 54 27 | awk '{if ($1 % 2) print $1, "odd"; else print $1, "even"}'
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'detect-failing-tests'
+  showPartnerPortalChecksumFile:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: FormatLibraryCompilerFlagsSegment5Of5
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "full-validation provisioning-task-cycle-5"}' > /tmp/download-from-latest-release/upload-to-report-server-round-1
+            file /tmp/download-from-latest-release/upload-to-report-server-round-1
+            row="ivory,brown,coral,willow"; for svc in ${row//,/ }; do echo "$svc"; done
+            echo "9 modules compiled"; echo {1..3}{a,b}
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'upload-to-report-server-round-1'
+  module-compilation-cycle-4:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - run:
+          name: ReleaseFreezePhaseShard3
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "scheduler-backup-rotation update-agent-build-metrics"}' > /tmp/download-from-latest-release/client-sync
+            file /tmp/download-from-latest-release/client-sync
+            status=passed; for check in bundle compile; do echo "$check $status"; done; echo "all checks $status"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'client-sync'
+  remove-downloaded-archives-without-confirmation:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Trigger partner portal smoke tests when files change
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "mirror-mobile-app-build-outputs notification-service-scan"}' > /tmp/download-from-latest-release/monitoring-resource-usage
+            file /tmp/download-from-latest-release/monitoring-resource-usage
+            runner="orbit-2"; echo "runner $runner picked up the job"; echo "runner ${runner%-*} released"
+            echo holding serializer; entry="report.cfg"; echo "${entry%.*}-39.${entry##*.}"; echo "releasing serializer"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'monitoring-resource-usage'
+  upload-tutorials-during-release-freeze:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: run-code-generators-unless-skipped
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "loader-license-files decode-credentials-on-schedule"}' > /tmp/download-from-latest-release/verify-data-importer-checksum
+            file /tmp/download-from-latest-release/verify-data-importer-checksum
+            squared() { echo $(($1 * $1)); }; echo "$(squared 12) $(squared 7)"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'verify-data-importer-checksum'
+  executing-link-checks:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Toolkit database health check workflow
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "post-approval-lint-check fast-roll-out"}' > /tmp/download-from-latest-release/client-build
+            file /tmp/download-from-latest-release/client-build
+            show_step() { echo "worker $1"; }; show_step build; show_step archive; show_step package; echo "every round passed"
+            read -r first < <(echo "beech eagle"); echo "${#first}"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'client-build'
+  set-up-event-bus:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: pre-build cleanup
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "automated-deployment-dry-run artifact-backup-stage"}' > /tmp/download-from-latest-release/post-build-security-report
+            file /tmp/download-from-latest-release/post-build-security-report
+            result=0; for idx in 3 3 42 27 17 47; do result=$((result * 10 + idx % 10)); done; echo "result $result"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'post-build-security-report'
+  volume-backup-hook:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: mail server image
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "automated-cache-setup pre-test-sanity-checks-run-2"}' > /tmp/download-from-latest-release/apply-manifest-for-all-services
+            file /tmp/download-from-latest-release/apply-manifest-for-all-services
+            key="deps-$(printf '%s' "rivet-v6" | md5sum | cut -c1-8)"; echo "cache key $key"
+            turn=0; while ((turn < 6)); do ((turn += 1)); echo "worker $turn"; done
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'apply-manifest-for-all-services'
+  CopySnapshotsFromInternalRegistry:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Scheduling fast tests
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "shard-12 logger-test-cache"}' > /tmp/download-from-latest-release/job-runner-upload
+            file /tmp/download-from-latest-release/job-runner-upload
+            printf '%s\n' "3 tests collected"; printf '%s\n' "job-16-lever" | gzip -c | gzip -d -c
+            print_it() { echo "$1"; }; bracketed() { print_it "[$1]"; }; bracketed wren; echo "all good"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'job-runner-upload'
+  post-setup-deployment-monitoring:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Quick Generation
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "calibrate-wave-1 pre-checkout-validation-level-5"}' > /tmp/download-from-latest-release/inspect-block-count
+            file /tmp/download-from-latest-release/inspect-block-count
+            task="config render"; echo "[$task] queued"; echo "[$task] finished"
+            echo "8 warnings, 0 errors"; phrase="jupiter amber"; echo "$phrase" | tr ' ' '\n' | sort -r | paste -s -d,
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'inspect-block-count'
+  installUserPortalDependencies:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Publish update agent help pages
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "schema-lint-stage security-check-run"}' > /tmp/download-from-latest-release/inspect-encoded-contents
+            file /tmp/download-from-latest-release/inspect-encoded-contents
+            queue=(sheep kappa argon walnut gear); echo "${queue[@]^^}"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'inspect-encoded-contents'
+  InstallMetricsExporterBuildDependenciesFromLocalArchive:
+    docker:
+      - image: cimg/base:2024.07
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/download-from-latest-release
+      - run:
+          name: Optimize analytics container image (group 8 of 8)
+          command: |
+            mkdir -p /tmp/download-from-latest-release
+            awk 'BEGIN{print "report-builder-tutorials inform-maintainers"}' > /tmp/download-from-latest-release/connector-signing
+            file /tmp/download-from-latest-release/connector-signing
+            echo "payments ready"; words=({1..5}); echo "${#words[@]}"
+
+      - persist_to_workspace:
+          root: /tmp/download-from-latest-release
+          paths:
+            - 'connector-signing'
+workflows:
+  partial-digest:
+    jobs:
+      - promote-nightly-compiler-build-to-public-mirror
+      - DisplayDeploymentPlan:
+          requires:
+            - promote-nightly-compiler-build-to-public-mirror
+      - fetch-from-backup:
+          requires:
+            - DisplayDeploymentPlan
+      - plugin-packaging-stage:
+          requires:
+            - DisplayDeploymentPlan
+      - library-packaging-wave-2-of-5:
+          requires:
+            - plugin-packaging-stage
+      - framework-cache:
+          requires:
+            - library-packaging-wave-2-of-5
+      - SearchDataExportHook:
+          requires:
+            - library-packaging-wave-2-of-5
+      - configureStagingEnvironmentAndBuildReleaseCandidate:
+          requires:
+            - SearchDataExportHook
+      - sync-service-archive-compression:
+          requires:
+            - configureStagingEnvironmentAndBuildReleaseCandidate
+      - search-for-license-violations:
+          requires:
+            - configureStagingEnvironmentAndBuildReleaseCandidate
+      - final-engine-schema-validation:
+          requires:
+            - search-for-license-violations
+      - generate-and-publish-license-files:
+          requires:
+            - final-engine-schema-validation
+      - alertDevelopersWhenVersionChanges:
+          requires:
+            - final-engine-schema-validation
+      - linker-review:
+          requires:
+            - alertDevelopersWhenVersionChanges
+      - copyConnectorLintReportToCoverageService:
+          requires:
+            - linker-review
+      - testNotifierBuildConfiguration:
+          requires:
+            - linker-review
+      - PatchSettingsLoaderBuildDependencies:
+          requires:
+            - testNotifierBuildConfiguration
+      - LicenseScanStep:
+          requires:
+            - PatchSettingsLoaderBuildDependencies
+      - post-cleanup-report:
+          requires:
+            - PatchSettingsLoaderBuildDependencies
+      - linker-release-build:
+          requires:
+            - post-cleanup-report
+      - CheckOutAgentStyleSheetsAfterMigration:
+          requires:
+            - linker-release-build
+      - Prerequisites:
+          requires:
+            - linker-release-build
+      - formatter-checkout:
+          requires:
+            - Prerequisites
+      - complete-comparison:
+          requires:
+            - formatter-checkout
+      - ViewerReleaseBuild:
+          requires:
+            - formatter-checkout
+      - renderer-binary:
+          requires:
+            - ViewerReleaseBuild
+      - collect-and-publish-scan-results:
+          requires:
+            - renderer-binary
+      - post-compile-configuration-sync-wave-5:
+          requires:
+            - renderer-binary
+      - ReadFileHeaderForNextStage:
+          requires:
+            - post-compile-configuration-sync-wave-5
+      - PreTestChecks:
+          requires:
+            - ReadFileHeaderForNextStage
+      - RequiredStagingSmokeTest:
+          requires:
+            - ReadFileHeaderForNextStage
+      - execute-launcher-license-audit:
+          requires:
+            - RequiredStagingSmokeTest
+      - patchExtensionTypeDefinitions:
+          requires:
+            - execute-launcher-license-audit
+      - generateTestSummaryAndUploadArtifacts:
+          requires:
+            - execute-launcher-license-audit
+      - PreCleanupCompatibilityChecks:
+          requires:
+            - generateTestSummaryAndUploadArtifacts
+      - schema-freeze-step:
+          requires:
+            - PreCleanupCompatibilityChecks
+      - stop-engine-data-store:
+          requires:
+            - PreCleanupCompatibilityChecks
+      - FastFunctionalTestsSlice4:
+          requires:
+            - stop-engine-data-store
+      - OvernightDatabaseSnapshotJob9:
+          requires:
+            - FastFunctionalTestsSlice4
+      - purge-launcher-compiler-cache-in-dry-run-mode:
+          requires:
+            - FastFunctionalTestsSlice4
+      - volumeCleanup:
+          requires:
+            - purge-launcher-compiler-cache-in-dry-run-mode
+      - UploadDependencyReport:
+          requires:
+            - volumeCleanup
+      - alert-contributors-when-tests-pass:
+          requires:
+            - volumeCleanup
+      - build-shared-library-and-run-security-tests:
+          requires:
+            - alert-contributors-when-tests-pass
+      - ParserStorageProvisioning:
+          requires:
+            - build-shared-library-and-run-security-tests
+      - InjectDataPipelineSchemaLevel5:
+          requires:
+            - build-shared-library-and-run-security-tests
+      - operatorReleaseTaggingAttempt5:
+          requires:
+            - InjectDataPipelineSchemaLevel5
+      - DocumentationGenerationRoutine:
+          requires:
+            - operatorReleaseTaggingAttempt5
+  verify-changelog-in-parallel:
+    jobs:
+      - persist-image-processor-build-metrics
+      - messaging-binary-rebuild-task-node-2-of-11:
+          requires:
+            - persist-image-processor-build-metrics
+      - dailyUpload:
+          requires:
+            - messaging-binary-rebuild-task-node-2-of-11
+      - automatic-state-snapshot-bucket-4-of-8:
+          requires:
+            - messaging-binary-rebuild-task-node-2-of-11
+      - UploadIdentityServiceLintResults:
+          requires:
+            - automatic-state-snapshot-bucket-4-of-8
+      - HighPriorityQualityGate:
+          requires:
+            - UploadIdentityServiceLintResults
+      - generate-signature-and-upload-artifacts:
+          requires:
+            - UploadIdentityServiceLintResults
+      - complete-asset-compression-job-4:
+          requires:
+            - generate-signature-and-upload-artifacts
+      - capturing-schema-registry-crash-dumps-shard-16:
+          requires:
+            - complete-asset-compression-job-4
+      - SimulatorCompile:
+          requires:
+            - complete-asset-compression-job-4
+      - showPartnerPortalChecksumFile:
+          requires:
+            - SimulatorCompile
+      - analyzerPatchRelease:
+          requires:
+            - showPartnerPortalChecksumFile
+      - kernel-packaging:
+          requires:
+            - showPartnerPortalChecksumFile
+      - module-compilation-cycle-4:
+          requires:
+            - kernel-packaging
+      - finalize-nightly-compiler-release:
+          requires:
+            - module-compilation-cycle-4
+      - FreezingCompilerVersion:
+          requires:
+            - module-compilation-cycle-4
+      - remove-downloaded-archives-without-confirmation:
+          requires:
+            - FreezingCompilerVersion
+      - pre-build-policy-checks:
+          requires:
+            - remove-downloaded-archives-without-confirmation
+      - filter-records:
+          requires:
+            - remove-downloaded-archives-without-confirmation
+      - upload-tutorials-during-release-freeze:
+          requires:
+            - filter-records
+      - WaitForLandingPage:
+          requires:
+            - upload-tutorials-during-release-freeze
+      - ImportFeatureFlags:
+          requires:
+            - upload-tutorials-during-release-freeze
+      - executing-link-checks:
+          requires:
+            - ImportFeatureFlags
+      - fastDocumentationLint:
+          requires:
+            - executing-link-checks
+      - FullMatrix:
+          requires:
+            - executing-link-checks
+      - set-up-event-bus:
+          requires:
+            - FullMatrix
+      - package-promotion-pipeline:
+          requires:
+            - set-up-event-bus
+      - install-tools-from-internal-registry:
+          requires:
+            - set-up-event-bus
+      - volume-backup-hook:
+          requires:
+            - install-tools-from-internal-registry
+      - load-version-information:
+          requires:
+            - volume-backup-hook
+      - code-analysis-task:
+          requires:
+            - volume-backup-hook
+      - CopySnapshotsFromInternalRegistry:
+          requires:
+            - code-analysis-task
+      - indexing-headers:
+          requires:
+            - CopySnapshotsFromInternalRegistry
+      - LaunchingVisualTests:
+          requires:
+            - CopySnapshotsFromInternalRegistry
+      - post-setup-deployment-monitoring:
+          requires:
+            - LaunchingVisualTests
+      - preliminary-artifact-fetch:
+          requires:
+            - post-setup-deployment-monitoring
+      - JobRunnerDocs:
+          requires:
+            - post-setup-deployment-monitoring
+      - installUserPortalDependencies:
+          requires:
+            - JobRunnerDocs
+      - rename-agent-bundle:
+          requires:
+            - installUserPortalDependencies
+      - updater-coverage-report:
+          requires:
+            - installUserPortalDependencies
+      - InstallMetricsExporterBuildDependenciesFromLocalArchive:
+          requires:
+            - updater-coverage-report
+      - tagging-draft-release:
+          requires:
+            - InstallMetricsExporterBuildDependenciesFromLocalArchive
